@@ -3,7 +3,7 @@ import { createRoot } from "react-dom/client";
 import { RouterProvider } from "react-router-dom";
 import router from "@/router";
 import { ApolloProvider } from "@apollo/client";
-import { client } from "@/config/graphql";
+import { client } from "@/config";
 
 import "@/index.css";
 
