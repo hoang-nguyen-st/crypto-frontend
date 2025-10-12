@@ -1,0 +1,18 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile 
+    ports:
+      - "${PORT}:${PORT}"
+    env_file:
+      - .env
+    command: "yarn dev"
+    develop:
+      watch:
+        - path: .
+          action: sync
+          target: /app
+        - path: ./package.json
+          action: rebuild
+          
