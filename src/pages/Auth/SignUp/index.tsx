@@ -82,7 +82,7 @@ const SignUp = () => {
                   value={formData.email}
                   onChange={(e) => handleSetFormData("email", e.target.value)}
                   placeholder="name@example.com"
-                  className="w-full px-3 py-2 bg-white border placeholder:pl-5 border-gray-200 dark:border-gray-800 rounded-md text-sm !text-black !placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-gray-900 dark:focus:ring-gray-100 focus:border-transparent transition-all duration-200"
+                  className="w-full px-3 py-2 bg-white border pl-8 border-gray-200 dark:border-gray-800 rounded-md text-sm !text-black !placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-gray-900 dark:focus:ring-gray-100 focus:border-transparent transition-all duration-200"
                 />
               </div>
             </div>
@@ -103,7 +103,7 @@ const SignUp = () => {
                     handleSetFormData("password", e.target.value)
                   }
                   placeholder="Create a password"
-                  className="w-full px-3 py-2 bg-white placeholder:pl-5 border border-gray-200 dark:border-gray-800 rounded-md text-sm !text-black !placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-gray-900 dark:focus:ring-gray-100 focus:border-transparent transition-all duration-200"
+                  className="w-full px-3 py-2 bg-white pl-8 border border-gray-200 dark:border-gray-800 rounded-md text-sm !text-black !placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-gray-900 dark:focus:ring-gray-100 focus:border-transparent transition-all duration-200"
                 />
                 <button
                   type="button"
