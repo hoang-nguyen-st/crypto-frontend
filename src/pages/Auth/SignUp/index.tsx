@@ -10,19 +10,22 @@ import {
   CheckIcon,
 } from "./icons";
 import { useSignUp } from "@/hooks";
-import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
-import signUpSchema from "./validation/userValidator";
+import type { CreateUserDto } from "@/interfaces";
 
 const SignUp = () => {
-  const navigate = useNavigate();
+  const { handleSignUp } = useSignUp();
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [name, setName] = useState<string>("");
-  const [isChecked, setIsChecked] = useState<boolean>(false);
+  const [formData, setFormData] = useState<CreateUserDto>({
+    name: "",
+    email: "",
+    password: "",
+  });
 
-  const [mutation] = useSignUp();
+  const handleSetFormData = (key: keyof CreateUserDto, value: string) => {
+    setFormData((prev) => ({ ...prev, [key]: value }));
+  };
+
+  const [isChecked, setIsChecked] = useState<boolean>(false);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -30,36 +33,8 @@ const SignUp = () => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const data = { name, email, password };
-
-    try {
-      await signUpSchema.validate(data, { abortEarly: false });
-    } catch (err: any) {
-      if (err.inner) {
-        err.inner.forEach((e: any) => {
-          toast.error(e.message, { position: "top-right" });
-        });
-      }
-      return;
-    }
-
-    const promise = mutation({
-      variables: { createUserDto: data },
-    });
-
-    toast.promise(promise, {
-      loading: "Creating user...",
-      success: () => {
-        navigate(`${URL.AUTH}/${URL.SIGN_IN}`);
-        return "User created successfully!";
-      },
-      error: (err) => {
-        return (
-          err?.graphQLErrors?.[0]?.message ||
-          "An unexpected error occurred while creating user."
-        );
-      },
-    });
+    await handleSignUp(formData);
+    setFormData((prev) => ({ ...prev, password: "" }));
   };
 
   return (
@@ -88,8 +63,8 @@ const SignUp = () => {
               </label>
               <input
                 type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                value={formData.name}
+                onChange={(e) => handleSetFormData("name", e.target.value)}
                 placeholder="Enter your full name"
                 className="w-full px-3 py-2 bg-white border border-gray-200 dark:border-gray-800 rounded-md text-sm !text-black !placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-gray-900 dark:focus:ring-gray-100 focus:border-transparent transition-all duration-200"
               />
@@ -104,8 +79,8 @@ const SignUp = () => {
                 </div>
                 <input
                   type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  value={formData.email}
+                  onChange={(e) => handleSetFormData("email", e.target.value)}
                   placeholder="name@example.com"
                   className="w-full px-3 py-2 bg-white border placeholder:pl-5 border-gray-200 dark:border-gray-800 rounded-md text-sm !text-black !placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-gray-900 dark:focus:ring-gray-100 focus:border-transparent transition-all duration-200"
                 />
@@ -123,8 +98,10 @@ const SignUp = () => {
                 </div>
                 <input
                   type={showPassword ? "text" : "password"}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  value={formData.password}
+                  onChange={(e) =>
+                    handleSetFormData("password", e.target.value)
+                  }
                   placeholder="Create a password"
                   className="w-full px-3 py-2 bg-white placeholder:pl-5 border border-gray-200 dark:border-gray-800 rounded-md text-sm !text-black !placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-gray-900 dark:focus:ring-gray-100 focus:border-transparent transition-all duration-200"
                 />

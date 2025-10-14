@@ -16,5 +16,5 @@ export interface CreateUserDto {
 }
 
 export interface CreateUserResponse {
-  createUser: User
+  createUser: User;
 }
