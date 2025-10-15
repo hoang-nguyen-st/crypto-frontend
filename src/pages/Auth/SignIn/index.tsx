@@ -1,18 +1,21 @@
-import { useState, type FormEvent} from "react";
+import { useState, type FormEvent } from "react";
 import { Link } from "react-router-dom";
 import { URL } from "@/constants";
 import { UserIcon, MailIcon, LockIcon, EyeIcon, EyeOffIcon } from "./icons";
 import { useLogin } from "@/hooks";
-import toast from "react-hot-toast";
-
+import type { SignInDto } from "@/interfaces";
 
 const SignIn = () => {
+  const { handleSignIn } = useLogin();
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const [formData, setFormData] = useState<SignInDto>({
+    email: "",
+    password: "",
+  });
 
-  const signInDto = { email, password};
-  const [mutation] = useLogin(signInDto);
+  const handleSetFormData = (key: keyof SignInDto, value: string) => {
+    setFormData((prev) => ({ ...prev, [key]: value }));
+  };
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -20,20 +23,8 @@ const SignIn = () => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const promise = mutation({
-      variables: { signInDto: { email, password } },
-    });
-    toast.promise(promise,{
-      loading: "awaiting approval...",
-      success: "Sign in successfully!",
-      error: (err) => {
-        const message =
-          err?.graphQLErrors?.[0]?.message ||
-          err?.message ||
-          "An unexpected error occurred while creating user."
-        return message;
-      }
-    })
+    await handleSignIn(formData);
+    setFormData((prev) => ({ ...prev, password: "" }));
   };
 
   return (
@@ -64,8 +55,8 @@ const SignIn = () => {
                 </div>
                 <input
                   type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  value={formData.email}
+                  onChange={(e) => handleSetFormData("email", e.target.value)}
                   placeholder="name@example.com"
                   className="w-full px-3 py-2 bg-white border pl-8 border-gray-200 dark:border-gray-800 rounded-md text-sm !text-black !placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-gray-900 dark:focus:ring-gray-100 focus:border-transparent transition-all duration-200"
                 />
@@ -83,9 +74,11 @@ const SignIn = () => {
                 </div>
                 <input
                   type={showPassword ? "text" : "password"}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Create a password"
+                  value={formData.password}
+                  onChange={(e) =>
+                    handleSetFormData("password", e.target.value)
+                  }
+                  placeholder="Your password"
                   className="w-full px-3 py-2 pl-8 bg-white border border-gray-200 dark:border-gray-800 rounded-md text-sm !text-black !placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-gray-900 dark:focus:ring-gray-100 focus:border-transparent transition-all duration-200"
                 />
                 <button
