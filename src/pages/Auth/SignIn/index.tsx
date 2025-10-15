@@ -1,15 +1,39 @@
-import { useState } from "react";
+import { useState, type FormEvent} from "react";
 import { Link } from "react-router-dom";
 import { URL } from "@/constants";
 import { UserIcon, MailIcon, LockIcon, EyeIcon, EyeOffIcon } from "./icons";
+import { useLogin } from "@/hooks";
+import toast from "react-hot-toast";
+
 
 const SignIn = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
+  const signInDto = { email, password};
+  const [mutation] = useLogin(signInDto);
+
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
+  };
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const promise = mutation({
+      variables: { signInDto: { email, password } },
+    });
+    toast.promise(promise,{
+      loading: "awaiting approval...",
+      success: "Sign in successfully!",
+      error: (err) => {
+        const message =
+          err?.graphQLErrors?.[0]?.message ||
+          err?.message ||
+          "An unexpected error occurred while creating user."
+        return message;
+      }
+    })
   };
 
   return (
@@ -30,7 +54,7 @@ const SignIn = () => {
             </p>
           </div>
 
-          <form className="space-y-4">
+          <form className="space-y-4" onSubmit={handleSubmit}>
             {/* Email Input */}
             <div className="space-y-2">
               <label className="text-sm font-medium text-gray-900">Email</label>

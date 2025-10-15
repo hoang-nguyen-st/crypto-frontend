@@ -11,4 +11,15 @@ const LOGIN = gql`
   }
 `;
 
-export { LOGIN };
+const CREATE_USER = gql`
+  mutation Mutation($createUserDto: CreateUserDto!) {
+    createUser(createUserDto: $createUserDto) {
+      email
+      id
+      avatar
+      name
+    }
+  }
+`;
+
+export { LOGIN, CREATE_USER };
