@@ -1,4 +1,6 @@
 import { useMutation } from "@apollo/client/react";
+import type { ApolloError } from "@apollo/client";
+import type { ValidationError } from "yup";
 import { LOGIN, CREATE_USER } from "@/graphql";
 import type {
   SignInResponse,
@@ -7,13 +9,15 @@ import type {
   CreateUserResponse,
 } from "@/interfaces";
 import toast from "react-hot-toast";
-import signUpSchema from "@/pages/Auth/SignUp/validation/userValidator";
-import signInSchema from "@/pages/Auth/SignIn/validation/loginValidation";
+import { signInSchema, signUpSchema } from "@/validations";
 import { useNavigate } from "react-router";
 import { URL } from "@/constants";
+import { useAuth } from "@/contexts";
 
 const useLogin = () => {
   const navigate = useNavigate();
+  const { refetchUser } = useAuth();
+
   const [signInMutation, { loading }] = useMutation<
     SignInResponse,
     { signInDto: SignInDto }
@@ -22,35 +26,43 @@ const useLogin = () => {
   const handleSignIn = async (formData: SignInDto) => {
     try {
       await signInSchema.validate(formData, { abortEarly: false });
-    } catch (err: any) {
-      if (err.inner) {
-        err.inner.forEach((e: any) => {
-          toast.error(e.message, { position: "top-right" });
+    } catch (error) {
+      const err = error as ValidationError;
+      if (err.inner && err.inner.length > 0) {
+        err.inner.forEach((e) => {
+          if (e.message) {
+            toast.error(e.message, { position: "top-right" });
+          }
         });
       }
       return;
     }
 
-    toast.promise(
-      signInMutation({
-        variables: { signInDto: formData },
-      }),
+    await toast.promise(
+      (async () => {
+        const { data } = await signInMutation({
+          variables: { signInDto: formData },
+          context: { credentials: "include" },
+        });
+        await refetchUser();
+        navigate(URL.HOME);
+        return data;
+      })(),
       {
-        loading: "trying to sign in...",
-        success: () => {
-          navigate(URL.HOME);
-          return "sign in sucessfully!";
+        loading: "Trying to sign in...",
+        success: () => "Signed in successfully!",
+        error: (error: unknown) => {
+          const apolloErr = error as ApolloError;
+          return (
+            apolloErr.graphQLErrors?.[0]?.message ||
+            "An unexpected error occurred while signing in."
+          );
         },
-        error: (err) =>
-          err?.graphQLErrors?.[0]?.message ||
-          "An unexpected error occurred while siging in.",
       }
     );
   };
-  return {
-    handleSignIn,
-    loading,
-  };
+
+  return { handleSignIn, loading };
 };
 
 const useSignUp = () => {
@@ -64,36 +76,38 @@ const useSignUp = () => {
   const handleSignUp = async (formData: CreateUserDto) => {
     try {
       await signUpSchema.validate(formData, { abortEarly: false });
-    } catch (err: any) {
-      if (err.inner) {
-        err.inner.forEach((e: any) => {
-          toast.error(e.message, { position: "top-right" });
+    } catch (error) {
+      const err = error as ValidationError;
+      if (err.inner && err.inner.length > 0) {
+        err.inner.forEach((e) => {
+          if (e.message) {
+            toast.error(e.message, { position: "top-right" });
+          }
         });
       }
       return;
     }
 
-    toast.promise(
-      signUpMutation({
-        variables: { createUserDto: formData },
-      }),
+    await toast.promise(
+      signUpMutation({ variables: { createUserDto: formData } }),
       {
         loading: "Creating user...",
         success: () => {
           navigate(`${URL.AUTH}/${URL.SIGN_IN}`);
           return "User created successfully!";
         },
-        error: (err) =>
-          err?.graphQLErrors?.[0]?.message ||
-          "An unexpected error occurred while creating user.",
+        error: (error: unknown) => {
+          const apolloErr = error as ApolloError;
+          return (
+            apolloErr.graphQLErrors?.[0]?.message ||
+            "An unexpected error occurred while creating user."
+          );
+        },
       }
     );
   };
 
-  return {
-    handleSignUp,
-    loading,
-  };
+  return { handleSignUp, loading };
 };
 
-export { useLogin, useSignUp };
+export { useLogin, useSignUp, useAuth };

@@ -1,13 +1,18 @@
 import { URL } from "./constants";
 import { createBrowserRouter, Outlet } from "react-router-dom";
-import { privateRouters, publicRouters } from "@/routes/index";
+import { privateRouters, publicRouters, authRouters } from "@/routes/index";
+import { AuthProvider } from "./contexts";
 
 const router = createBrowserRouter([
   {
     path: URL.HOME,
-    element: <Outlet />,
+    element: (
+      <AuthProvider>
+        <Outlet />
+      </AuthProvider>
+    ),
     errorElement: <div>Not Found</div>,
-    children: [...publicRouters, ...privateRouters],
+    children: [...publicRouters, ...privateRouters, ...authRouters],
   },
 ]);
 
