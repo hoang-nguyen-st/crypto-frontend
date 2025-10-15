@@ -8,3 +8,13 @@ export interface SignInDto {
 export interface SignInResponse {
   signIn: User;
 }
+
+export interface CreateUserDto {
+  name: string;
+  email: string;
+  password: string;
+}
+
+export interface CreateUserResponse {
+  createUser: User;
+}
