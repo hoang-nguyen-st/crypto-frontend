@@ -1,12 +1,12 @@
 import { Outlet } from "react-router-dom";
+import { cn } from "@/libraries/utils";
+import { useState } from "react";
 import {
   HeaderDesktop,
   FooterDesktop,
   SidebarDesktop,
 } from "@/components/layouts";
-import { cn } from "@/libraries/utils";
 import { menu } from "@/constants";
-import { useState } from "react";
 
 export default function PublicLayout() {
   const [isSidebar, setIsSidebar] = useState<boolean>(false);

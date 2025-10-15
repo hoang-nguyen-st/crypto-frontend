@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
 import type { PropsWithChildren, FC } from "react";
-import type { MenuInterfaceProps } from "@/interfaces";
 import { Menu } from "lucide-react";
 import { cn } from "@/libraries/utils";
+import type { MenuInterfaceProps } from "@/interfaces";
+import { useAuth } from "@/hooks";
 
 interface HeaderDesktopInterfaceProps {
   props?: PropsWithChildren;
@@ -36,6 +37,7 @@ const HeaderDesktop: FC<HeaderDesktopInterfaceProps> = ({
                   <Link to={{ pathname: item.path }}>{item.name}</Link>
                 </li>
               ))}
+            <li>{useAuth().user?.name}</li>
           </ul>
         </div>
       </nav>

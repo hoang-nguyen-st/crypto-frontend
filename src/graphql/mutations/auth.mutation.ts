@@ -19,4 +19,10 @@ const CREATE_USER = gql`
   }
 `;
 
-export { LOGIN, CREATE_USER };
+const LOGOUT = gql`
+  mutation Logout {
+    logout
+  }
+`;
+
+export { LOGIN, CREATE_USER, LOGOUT };
