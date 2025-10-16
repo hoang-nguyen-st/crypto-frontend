@@ -1,12 +1,13 @@
 import { gql } from "@apollo/client";
 
 const ME_QUERY = gql`
-  query Me {
+  query Query {
     me {
+      avatar
+      email
       id
       name
-      email
-      avatar
+      role
     }
   }
 `;

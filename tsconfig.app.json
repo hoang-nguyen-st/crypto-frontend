@@ -22,7 +22,7 @@
     "noFallthroughCasesInSwitch": true,
     "paths": {
       "@/*": ["./src/*"],
-      "@components/*": ["./components/*"]
+      "@seraui/*": ["./components/*"]
     }
   },
   "include": ["src"]

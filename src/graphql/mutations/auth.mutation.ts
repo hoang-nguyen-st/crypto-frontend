@@ -20,8 +20,8 @@ const CREATE_USER = gql`
 `;
 
 const LOGOUT = gql`
-  mutation Logout {
-    logout
+  mutation Mutation {
+    signOut
   }
 `;
 

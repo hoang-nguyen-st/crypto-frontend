@@ -4,12 +4,12 @@ import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { URL } from "@/constants";
 import { ME_QUERY, LOGOUT } from "@/graphql";
-import type { User } from "@/interfaces";
 import { AuthContext } from "./AuthContext";
+import type { GetMeResponse } from "@/interfaces";
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const navigate = useNavigate();
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<GetMeResponse | null>(null);
 
   const [getMe, { loading, data, error }] = useLazyQuery(ME_QUERY, {
     fetchPolicy: "network-only",

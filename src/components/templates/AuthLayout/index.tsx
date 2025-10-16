@@ -1,8 +1,20 @@
-import { Outlet } from "react-router";
+import { useEffect } from "react";
+import { Outlet, useNavigate } from "react-router";
+import { useAuth } from "@/contexts";
+import { URL } from "@/constants";
 
 import "./style.css";
 
 export default function AuthLayout() {
+  const { user } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user) {
+      navigate(URL.HOME);
+    }
+  }, [user, navigate]);
+
   return (
     <section>
       <div className="auth-layout">
