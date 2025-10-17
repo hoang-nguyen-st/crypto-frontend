@@ -1,15 +1,30 @@
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
 import { Link } from "react-router-dom";
 import { URL } from "@/constants";
 import { UserIcon, MailIcon, LockIcon, EyeIcon, EyeOffIcon } from "./icons";
+import { useLogin } from "@/hooks";
+import type { SignInDto } from "@/interfaces";
 
 const SignIn = () => {
+  const { handleSignIn, loading } = useLogin();
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const [formData, setFormData] = useState<SignInDto>({
+    email: "",
+    password: "",
+  });
+
+  const handleSetFormData = (key: keyof SignInDto, value: string) => {
+    setFormData((prev) => ({ ...prev, [key]: value }));
+  };
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
+  };
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    await handleSignIn(formData);
+    setFormData((prev) => ({ ...prev, password: "" }));
   };
 
   return (
@@ -30,7 +45,7 @@ const SignIn = () => {
             </p>
           </div>
 
-          <form className="space-y-4">
+          <form className="space-y-4" onSubmit={handleSubmit}>
             {/* Email Input */}
             <div className="space-y-2">
               <label className="text-sm font-medium text-gray-900">Email</label>
@@ -39,9 +54,10 @@ const SignIn = () => {
                   <MailIcon />
                 </div>
                 <input
+                  disabled={loading}
                   type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  value={formData.email}
+                  onChange={(e) => handleSetFormData("email", e.target.value)}
                   placeholder="name@example.com"
                   className="w-full px-3 py-2 bg-white border pl-8 border-gray-200 dark:border-gray-800 rounded-md text-sm !text-black !placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-gray-900 dark:focus:ring-gray-100 focus:border-transparent transition-all duration-200"
                 />
@@ -58,10 +74,13 @@ const SignIn = () => {
                   <LockIcon />
                 </div>
                 <input
+                  disabled={loading}
                   type={showPassword ? "text" : "password"}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Create a password"
+                  value={formData.password}
+                  onChange={(e) =>
+                    handleSetFormData("password", e.target.value)
+                  }
+                  placeholder="Your password"
                   className="w-full px-3 py-2 pl-8 bg-white border border-gray-200 dark:border-gray-800 rounded-md text-sm !text-black !placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-gray-900 dark:focus:ring-gray-100 focus:border-transparent transition-all duration-200"
                 />
                 <button
@@ -75,6 +94,7 @@ const SignIn = () => {
             </div>
             {/* Submit Button */}
             <button
+              disabled={loading}
               type="submit"
               className="signin-button w-full bg-slate-600 text-white py-2 px-4 rounded-md text-sm font-medium hover:bg-slate-700 cursor-pointer focus:outline-none focus:ring-2 focus:ring-gray-900 dark:focus:ring-gray-100 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-black transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
             >
@@ -97,7 +117,7 @@ const SignIn = () => {
             <p className="text-sm text-gray-600 dark:text-gray-400">
               Forgot the password?{" "}
               <Link
-                to={{ pathname: `${URL.AUTH}/${URL.SIGN_UP}` }}
+                to={{ pathname: `${URL.AUTH}/${URL.FORGOT_PASSWORD}` }}
                 className="text-gray-900 font-medium hover:underline"
               >
                 Click here!

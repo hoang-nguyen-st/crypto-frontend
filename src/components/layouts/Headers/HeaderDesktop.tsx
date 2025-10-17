@@ -1,8 +1,18 @@
 import { Link } from "react-router-dom";
 import type { PropsWithChildren, FC } from "react";
-import type { MenuInterfaceProps } from "@/interfaces";
 import { Menu } from "lucide-react";
 import { cn } from "@/libraries/utils";
+import type { MenuInterfaceProps } from "@/interfaces";
+import { useAuth } from "@/hooks";
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { URL } from "@/constants";
 
 interface HeaderDesktopInterfaceProps {
   props?: PropsWithChildren;
@@ -15,6 +25,7 @@ const HeaderDesktop: FC<HeaderDesktopInterfaceProps> = ({
   menu,
   handleSidebar,
 }) => {
+  const { logout, user } = useAuth();
   return (
     <header className="h-20 px-20 bg-slate-600 fixed w-full z-50 border-b-white border-[1px]">
       <nav className="flex items-center justify-between h-full">
@@ -36,6 +47,26 @@ const HeaderDesktop: FC<HeaderDesktopInterfaceProps> = ({
                   <Link to={{ pathname: item.path }}>{item.name}</Link>
                 </li>
               ))}
+            {user ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger className="outline-none cursor-pointer">
+                  {user?.name}
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuItem>Profile</DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={() => logout()}>
+                    Logout
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <li>
+                <Link to={{ pathname: `${URL.AUTH}/${URL.SIGN_IN}` }}>
+                  Login
+                </Link>
+              </li>
+            )}
           </ul>
         </div>
       </nav>

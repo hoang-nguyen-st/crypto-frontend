@@ -1,4 +1,4 @@
-import { GitHubIcon, TwitterIcon, LinkedInIcon } from "@components/icons";
+import { GitHubIcon, TwitterIcon, LinkedInIcon } from "@seraui/icons";
 
 export const FooterDesktop = () => {
   return (
