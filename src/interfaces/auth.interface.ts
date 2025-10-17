@@ -34,3 +34,27 @@ export interface CreateUserDto {
 export interface CreateUserResponse {
   createUser: User;
 }
+
+export interface ForgotPasswordDto {
+  email: string;
+}
+
+export interface ForgotPasswordResponse {
+  forgotPassword: string;
+}
+
+export interface PasswordsInputDto {
+  password: string;
+  confirmPassword: string;
+}
+
+export interface NewPasswordDto {
+  password: string;
+  confirmPassword: string;
+  token: string;
+}
+
+export interface NewPasswordResponse {
+  resetPasswod: string;
+}
+
