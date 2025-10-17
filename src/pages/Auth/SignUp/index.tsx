@@ -13,7 +13,7 @@ import { useSignUp } from "@/hooks";
 import type { CreateUserDto } from "@/interfaces";
 
 const SignUp = () => {
-  const { handleSignUp } = useSignUp();
+  const { handleSignUp, loading } = useSignUp();
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [formData, setFormData] = useState<CreateUserDto>({
     name: "",
@@ -62,6 +62,7 @@ const SignUp = () => {
                 Full Name
               </label>
               <input
+                disabled={loading}
                 type="text"
                 value={formData.name}
                 onChange={(e) => handleSetFormData("name", e.target.value)}
@@ -78,6 +79,7 @@ const SignUp = () => {
                   <MailIcon />
                 </div>
                 <input
+                  disabled={loading}
                   type="email"
                   value={formData.email}
                   onChange={(e) => handleSetFormData("email", e.target.value)}
@@ -97,6 +99,7 @@ const SignUp = () => {
                   <LockIcon />
                 </div>
                 <input
+                  disabled={loading}
                   type={showPassword ? "text" : "password"}
                   value={formData.password}
                   onChange={(e) =>
@@ -118,6 +121,7 @@ const SignUp = () => {
             <div className="flex items-start space-x-2">
               <div className="relative flex items-center">
                 <input
+                  disabled={loading}
                   id="terms"
                   type="checkbox"
                   checked={isChecked}
@@ -158,7 +162,7 @@ const SignUp = () => {
             <button
               type="submit"
               className="signin-button w-full bg-slate-600 text-white py-2 px-4 rounded-md text-sm font-medium hover:bg-slate-700 cursor-pointer focus:outline-none focus:ring-2 focus:ring-gray-900 dark:focus:ring-gray-100 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-black transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-              disabled={!isChecked}
+              disabled={!isChecked || loading}
             >
               Create account
             </button>

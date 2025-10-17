@@ -25,4 +25,16 @@ const LOGOUT = gql`
   }
 `;
 
-export { LOGIN, CREATE_USER, LOGOUT };
+const FORGOT_PASSWORD = gql`
+  mutation ForgotPassword($forgotPasswordDto: ForgotPasswordDto!) {
+    forgotPassword(forgotPasswordDto: $forgotPasswordDto)
+  }
+`;
+
+const RESET_PASSWORD = gql`
+  mutation ResetPassword($newPasswordDto: NewPasswordDto!) {
+    resetPassword(newPasswordDto: $newPasswordDto)
+  }
+`;
+
+export { LOGIN, CREATE_USER, LOGOUT, FORGOT_PASSWORD, RESET_PASSWORD };
