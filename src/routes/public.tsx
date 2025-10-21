@@ -1,6 +1,6 @@
 import type { RouteObject } from "react-router-dom";
 import { PublicLayout } from "@/components";
-import { Feed, Messages, Connections, Discover } from "@/pages";
+import { Feed, Messages, Connections, Discover, Profile } from "@/pages";
 import { URL } from "@/constants";
 
 const routes: RouteObject[] = [
@@ -23,6 +23,10 @@ const routes: RouteObject[] = [
         element: <Discover />,
         path: URL.DISCOVER,
       },
+      {
+        element: <Profile />,
+        path: URL.PROFILE,
+      }
     ],
   },
 ];

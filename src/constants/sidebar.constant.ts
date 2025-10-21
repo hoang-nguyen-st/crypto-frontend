@@ -1,6 +1,6 @@
 import { URL, URL_NAME } from "@/constants";
 import type { SidebarInterfaceProps } from "@/interfaces";
-import { Home, MessageSquare, Users, Compass } from "lucide-react";
+import { Home, MessageSquare, Users, Compass, User } from "lucide-react";
 
 const sidebarItems: SidebarInterfaceProps[] = [
   {
@@ -22,6 +22,11 @@ const sidebarItems: SidebarInterfaceProps[] = [
     path: URL.DISCOVER,
     label: URL_NAME.DISCOVER,
     icon: Compass,
+  },
+  {
+    path: URL.PROFILE,
+    label: URL_NAME.PROFILE,
+    icon: User,
   },
 ];
 
