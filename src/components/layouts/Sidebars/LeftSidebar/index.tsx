@@ -2,7 +2,11 @@ import { useNavigate, useLocation, Link } from "react-router-dom";
 import { Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { sidebarItems } from "@/constants";
+import {
+  CREATE_COMBINATION_TWO_AGRUMENTS,
+  sidebarItems,
+  URL,
+} from "@/constants";
 
 export const LeftSidebar = () => {
   const navigate = useNavigate();
@@ -35,7 +39,12 @@ export const LeftSidebar = () => {
       </nav>
 
       <div className="p-4">
-        <Button className="w-full bg-primary hover:bg-primary-hover text-primary-foreground rounded-xl h-12 font-medium shadow-md">
+        <Button
+          onClick={() =>
+            navigate(CREATE_COMBINATION_TWO_AGRUMENTS(URL.CREATE, URL.POST))
+          }
+          className="w-full bg-primary hover:bg-primary-hover text-primary-foreground rounded-xl h-12 font-medium shadow-md"
+        >
           <span className="text-xl mr-2">+</span> Create Post
         </Button>
       </div>

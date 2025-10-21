@@ -3,6 +3,7 @@ import Messages from "@/pages/Messages";
 import Connections from "@/pages/Connections";
 import Discover from "@/pages/Discover";
 import Profile from "@/pages/Profile";
+import CreatePost from "@/pages/CreatePost";
 import { SignUp, SignIn, ForgotPassword, ResetPassword } from "./Auth";
 import { AdminDashboard } from "./Admin";
 
@@ -12,6 +13,7 @@ export {
   Connections,
   Discover,
   Profile,
+  CreatePost,
   SignUp,
   SignIn,
   ForgotPassword,
