@@ -3,6 +3,7 @@ export const URL_NAME = {
   MESSAGES: "Message",
   CONNECTIONS: "Connections",
   DISCOVER: "Discover",
+  PROFILE: "Profile",
   AUTH: "Auth",
   SIGN_IN: "Sign-in",
   SIGN_UP: "Sign-up",

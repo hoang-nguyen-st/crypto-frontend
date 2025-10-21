@@ -3,6 +3,7 @@ export const URL = {
   MESSAGES: "/messages",
   CONNECTIONS: "/connections",
   DISCOVER: "/discover",
+  PROFILE: "/profile",
   AUTH: "/auth",
   SIGN_IN: "sign-in",
   SIGN_UP: "sign-up",
