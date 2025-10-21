@@ -1,19 +1,18 @@
-import { Home, MessageSquare, Users, Compass, User, Zap } from "lucide-react";
+import { useNavigate, useLocation, Link } from "react-router-dom";
+import { Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-
-const navigationItems = [
-  { icon: Home, label: "Feed", active: true },
-  { icon: MessageSquare, label: "Messages", active: false },
-  { icon: Users, label: "Connections", active: false },
-  { icon: Compass, label: "Discover", active: false },
-  { icon: User, label: "Profile", active: false },
-];
+import {
+  CREATE_COMBINATION_TWO_AGRUMENTS,
+  sidebarItems,
+  URL,
+} from "@/constants";
 
 export const LeftSidebar = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
   return (
     <aside className="w-[280px] bg-card border-r border-border h-screen sticky top-0 flex flex-col">
-      {/* Logo */}
       <div className="p-6 border-b border-border">
         <div className="flex items-center gap-2">
           <Zap className="h-8 w-8 text-primary fill-primary" />
@@ -21,31 +20,35 @@ export const LeftSidebar = () => {
         </div>
       </div>
 
-      {/* Navigation */}
       <nav className="flex-1 p-4 space-y-2">
-        {navigationItems.map((item) => (
-          <button
-            key={item.label}
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-all ${
-              item.active
+        {sidebarItems.map((item, index: number) => (
+          <Link
+            key={index}
+            to={item.path}
+            onClick={() => navigate(item.path)}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left transition ${
+              location.pathname === item.path
                 ? "bg-primary/10 text-primary font-medium"
                 : "text-muted-foreground hover:bg-secondary"
             }`}
           >
             <item.icon className="h-5 w-5" />
             <span>{item.label}</span>
-          </button>
+          </Link>
         ))}
       </nav>
 
-      {/* Create Post Button */}
       <div className="p-4">
-        <Button className="w-full bg-primary hover:bg-primary-hover text-primary-foreground rounded-xl h-12 font-medium shadow-md">
+        <Button
+          onClick={() =>
+            navigate(CREATE_COMBINATION_TWO_AGRUMENTS(URL.CREATE, URL.POST))
+          }
+          className="w-full bg-primary hover:bg-primary-hover text-primary-foreground rounded-xl h-12 font-medium shadow-md"
+        >
           <span className="text-xl mr-2">+</span> Create Post
         </Button>
       </div>
 
-      {/* User Profile */}
       <div className="p-4 border-t border-border">
         <div className="flex items-center gap-3">
           <Avatar className="h-10 w-10">

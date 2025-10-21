@@ -1,4 +1,4 @@
-export * from "./menu.interface";
+export * from "./sidebar.interface";
 export * from "./post.interface";
 export * from "./user.interface";
 export * from "./post.interface";

@@ -27,26 +27,25 @@ export const StoryCard = ({
   }
 
   return (
-    <div
-      className="w-[120px] h-[200px] rounded-2xl bg-cover bg-center relative overflow-hidden cursor-pointer hover:scale-105 transition-transform group"
-      style={{ backgroundImage: `url(${image})` }}
-    >
-      {/* Gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/20 to-black/60" />
+    <div className="w-[120px] h-[200px] rounded-2xl overflow-hidden relative cursor-pointer group">
+      <div
+        className="w-[120px] h-[200px] rounded-2xl bg-cover bg-center relative hover:scale-105 hover:z-index overflow-hidden cursor-pointer transition-transform group"
+        style={{ backgroundImage: `url(${image})` }}
+      >
+        <div className="absolute inset-0 bg-linear-to-b from-black/20 to-black/60" />
 
-      {/* Avatar */}
-      <div className="absolute top-3 left-3 w-10 h-10 rounded-full bg-primary border-2 border-white flex items-center justify-center">
-        <Zap className="h-5 w-5 text-white fill-white" />
-      </div>
+        <div className="absolute top-3 left-3 w-10 h-10 rounded-full bg-primary border-2 border-white flex items-center justify-center">
+          <Zap className="h-5 w-5 text-white fill-white" />
+        </div>
 
-      {/* Content */}
-      <div className="absolute bottom-0 left-0 right-0 p-3">
-        {title && (
-          <p className="text-white text-xs font-medium mb-1 line-clamp-2">
-            {title}
-          </p>
-        )}
-        {timeAgo && <p className="text-white/80 text-xs">{timeAgo}</p>}
+        <div className="absolute bottom-0 left-0 right-0 p-3">
+          {title && (
+            <p className="text-white text-xs font-medium mb-1 line-clamp-2">
+              {title}
+            </p>
+          )}
+          {timeAgo && <p className="text-white/80 text-xs">{timeAgo}</p>}
+        </div>
       </div>
     </div>
   );
