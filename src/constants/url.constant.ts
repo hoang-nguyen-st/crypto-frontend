@@ -1,6 +1,7 @@
 export const URL = {
   FEED: "/",
   MESSAGES: "/messages",
+  CONNECTIONS: "/connections",
   AUTH: "/auth",
   SIGN_IN: "sign-in",
   SIGN_UP: "sign-up",
