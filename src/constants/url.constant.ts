@@ -2,6 +2,7 @@ export const URL = {
   FEED: "/",
   MESSAGES: "/messages",
   CONNECTIONS: "/connections",
+  DISCOVER: "/discover",
   AUTH: "/auth",
   SIGN_IN: "sign-in",
   SIGN_UP: "sign-up",
