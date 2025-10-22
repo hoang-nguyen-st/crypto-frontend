@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from "react";
 import { Link } from "react-router-dom";
-import { URL } from "@/constants";
+import { CREATE_COMBINATION_TWO_AGRUMENTS, URL } from "@/constants";
 import { UserIcon, MailIcon } from "../SignIn/icons";
 import { useForgotPassword } from "@/hooks";
 import type { ForgotPasswordDto } from "@/interfaces";
@@ -53,7 +53,7 @@ const ForgotPassword = () => {
                   value={formData.email}
                   onChange={(e) => handleSetFormData("email", e.target.value)}
                   placeholder="name@example.com"
-                  className="w-full px-3 py-2 bg-white border pl-8 border-gray-200 dark:border-gray-800 rounded-md text-sm !text-black !placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-gray-900 dark:focus:ring-gray-100 focus:border-transparent transition-all duration-200"
+                  className="w-full px-3 py-2 bg-white border pl-8 border-gray-200 dark:border-gray-800 rounded-md text-sm placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-gray-900 dark:focus:ring-gray-100 focus:border-transparent transition-all duration-200"
                 />
               </div>
             </div>
@@ -72,7 +72,12 @@ const ForgotPassword = () => {
             <p className="text-sm text-gray-600 dark:text-gray-400">
               Don't have an account?{" "}
               <Link
-                to={{ pathname: `${URL.AUTH}/${URL.SIGN_UP}` }}
+                to={{
+                  pathname: CREATE_COMBINATION_TWO_AGRUMENTS(
+                    URL.AUTH,
+                    URL.SIGN_UP
+                  ),
+                }}
                 className="text-gray-900 font-medium hover:underline"
               >
                 Click here!

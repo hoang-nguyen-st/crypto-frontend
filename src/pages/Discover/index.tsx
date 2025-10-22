@@ -44,7 +44,7 @@ const Discover = () => {
   };
 
   return (
-    <div className="max-w-[1200px] mx-auto py-6 px-8">
+    <div className="">
       <div className="flex items-center justify-between mb-8">
         <div>
           <h1 className="text-4xl font-bold text-foreground mb-2">

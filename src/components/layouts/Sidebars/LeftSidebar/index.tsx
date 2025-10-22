@@ -7,9 +7,11 @@ import {
   sidebarItems,
   URL,
 } from "@/constants";
+import { useAuth } from "@/contexts";
 
 export const LeftSidebar = () => {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const location = useLocation();
   return (
     <aside className="w-[280px] bg-card border-r border-border h-screen sticky top-0 flex flex-col">
@@ -52,11 +54,11 @@ export const LeftSidebar = () => {
       <div className="p-4 border-t border-border">
         <div className="flex items-center gap-3">
           <Avatar className="h-10 w-10">
-            <AvatarImage src="https://api.dicebear.com/7.x/avataaars/svg?seed=greatstack" />
-            <AvatarFallback>L</AvatarFallback>
+            <AvatarImage src={user?.avatar} />
+            <AvatarFallback>{user?.name[0]}</AvatarFallback>
           </Avatar>
           <div className="flex-1 min-w-0">
-            <p className="font-medium text-sm text-foreground">Lam Hoang</p>
+            <p className="font-medium text-sm text-foreground">{user?.name}</p>
             <p className="text-xs text-muted-foreground">@lamhoang</p>
           </div>
         </div>
