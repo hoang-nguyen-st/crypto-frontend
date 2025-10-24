@@ -1,5 +1,5 @@
 import { useNavigate, useLocation, Link } from "react-router-dom";
-import { Zap } from "lucide-react";
+import { Zap, Sun, Moon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -7,16 +7,25 @@ import {
   sidebarItems,
   URL,
 } from "@/constants";
+import { useTheme } from "@/hooks/useTheme";
 
 export const LeftSidebar = () => {
   const navigate = useNavigate();
   const location = useLocation();
+   const { theme, toggleTheme } = useTheme();
   return (
     <aside className="w-[280px] bg-card border-r border-border h-screen sticky top-0 flex flex-col">
       <div className="p-6 border-b border-border">
         <div className="flex items-center gap-2">
           <Zap className="h-8 w-8 text-primary fill-primary" />
           <span className="text-2xl font-bold text-foreground">EnderIO</span>
+        </div>
+        <div>
+          <button
+          className="border-b"
+          onClick={toggleTheme}>
+          {theme === "dark" ? <Moon size={20} /> : <Sun size={20} />}
+          </button>
         </div>
       </div>
 

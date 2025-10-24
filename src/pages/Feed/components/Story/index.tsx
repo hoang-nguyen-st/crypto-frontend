@@ -33,8 +33,7 @@ export const StoryCard = ({
         style={{ backgroundImage: `url(${image})` }}
       >
         <div className="absolute inset-0 bg-linear-to-b from-black/20 to-black/60" />
-
-        <div className="absolute top-3 left-3 w-10 h-10 rounded-full bg-primary border-2 border-white flex items-center justify-center">
+        <div className="absolute top-3 left-3 w-10 h-10 rounded-full bg-primary border-2 border-white flex items-center justify-center dark:bg-gray-800 dark:text-white dark:border-gray-600">
           <Zap className="h-5 w-5 text-white fill-white" />
         </div>
 

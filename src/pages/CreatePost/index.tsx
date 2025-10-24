@@ -25,7 +25,8 @@ const CreatePost = () => {
 
         <Textarea
           placeholder="What's happening?"
-          className="min-h-[200px] resize-none border-border text-base"
+          className="min-h-[200px] resize-none border-border text-base w-full rounded-md border bg-white text-gray-900
+         dark:bg-gray-800 dark:text-white dark:border-gray-600"
         />
 
         <div className="flex items-center justify-between pt-4 border-t border-border">
