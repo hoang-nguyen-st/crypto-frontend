@@ -5,15 +5,16 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/contexts";
+import type { CreatePostDto } from "@/interfaces";
+import { useCreatePost } from "@/hooks";
 
 const CreatePost = () => {
   const { user } = useAuth();
   const fileInput = useRef<HTMLInputElement>(null);
   const contentRef = useRef<HTMLTextAreaElement>(null);
+  const { handleCreatePost } = useCreatePost();
 
-  const [payload, setPayload] = useState<{ thumbnail: File | null }>({
-    thumbnail: null,
-  });
+  const [thumbnail, setThumbnail] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
   const handleClick = () => fileInput.current?.click();
@@ -22,20 +23,20 @@ const CreatePost = () => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    setPayload({ thumbnail: file });
+    setThumbnail(file);
     setPreviewUrl(URL.createObjectURL(file));
   };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const formData = new FormData();
-    const content = contentRef.current?.value?.trim() || "";
+    const content: string = contentRef.current?.value?.trim() || "";
 
-    formData.append("content", content);
-    if (payload.thumbnail) formData.append("thumbnail", payload.thumbnail);
-
-    console.log("Form data:", [...formData.entries()]);
+    const payload: CreatePostDto = {
+      content,
+      thumbnail: thumbnail,
+    };
+    handleCreatePost(payload);
   };
 
   return (
