@@ -20,8 +20,9 @@ import {
   resetPasswordSchema,
 } from "@/validations";
 import { useNavigate } from "react-router";
-import { CREATE_COMBINATION_TWO_AGRUMENTS, URL } from "@/constants";
+import { URL } from "@/constants";
 import { useAuth } from "@/contexts";
+import { CREATE_COMBINATION_TWO_AGRUMENTS } from "@/helpers";
 
 const useLogin = () => {
   const navigate = useNavigate();

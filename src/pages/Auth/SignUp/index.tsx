@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from "react";
 import { Link } from "react-router-dom";
-import { CREATE_COMBINATION_TWO_AGRUMENTS, URL } from "@/constants";
+import { URL } from "@/constants";
 import {
   UserIcon,
   MailIcon,
@@ -11,6 +11,7 @@ import {
 } from "./icons";
 import { useSignUp } from "@/hooks";
 import type { CreateUserDto } from "@/interfaces";
+import { CREATE_COMBINATION_TWO_AGRUMENTS } from "@/helpers";
 
 const SignUp = () => {
   const { handleSignUp, loading } = useSignUp();

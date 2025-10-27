@@ -1,9 +1,10 @@
 import { useState, type FormEvent } from "react";
 import { Link } from "react-router-dom";
-import { CREATE_COMBINATION_TWO_AGRUMENTS, URL } from "@/constants";
+import {  URL } from "@/constants";
 import { UserIcon, MailIcon } from "../SignIn/icons";
 import { useForgotPassword } from "@/hooks";
 import type { ForgotPasswordDto } from "@/interfaces";
+import { CREATE_COMBINATION_TWO_AGRUMENTS } from "@/helpers";
 
 const ForgotPassword = () => {
   const { handleForgotPassword, loading } = useForgotPassword();
