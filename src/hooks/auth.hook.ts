@@ -22,6 +22,7 @@ import {
 import { useNavigate } from "react-router";
 import { URL } from "@/constants";
 import { useAuth } from "@/contexts";
+import { CREATE_COMBINATION_TWO_AGRUMENTS } from "@/helpers";
 
 const useLogin = () => {
   const navigate = useNavigate();
@@ -101,7 +102,7 @@ const useSignUp = () => {
       {
         loading: "Creating user...",
         success: () => {
-          navigate(`${URL.AUTH}/${URL.SIGN_IN}`);
+          navigate(CREATE_COMBINATION_TWO_AGRUMENTS(URL.AUTH, URL.SIGN_IN));
           return "User created successfully!";
         },
         error: (error: unknown) => {
@@ -201,7 +202,7 @@ const useResetPassword = () => {
       {
         loading: "Resetting new password...",
         success: () => {
-          navigate(`${URL.AUTH}/${URL.SIGN_IN}`);
+          navigate(CREATE_COMBINATION_TWO_AGRUMENTS(URL.AUTH, URL.SIGN_IN));
           return "Reset new password successfully!";
         },
         error: (error: unknown) => {
@@ -218,4 +219,4 @@ const useResetPassword = () => {
   return { handleResetPassword, loading };
 };
 
-export { useLogin, useSignUp, useAuth, useForgotPassword, useResetPassword };
+export { useLogin, useSignUp, useForgotPassword, useResetPassword };

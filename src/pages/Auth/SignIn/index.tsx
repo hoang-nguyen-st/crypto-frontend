@@ -4,6 +4,7 @@ import { URL } from "@/constants";
 import { UserIcon, MailIcon, LockIcon, EyeIcon, EyeOffIcon } from "./icons";
 import { useLogin } from "@/hooks";
 import type { SignInDto } from "@/interfaces";
+import { CREATE_COMBINATION_TWO_AGRUMENTS } from "@/helpers";
 
 const SignIn = () => {
   const { handleSignIn, loading } = useLogin();
@@ -59,7 +60,7 @@ const SignIn = () => {
                   value={formData.email}
                   onChange={(e) => handleSetFormData("email", e.target.value)}
                   placeholder="name@example.com"
-                  className="w-full px-3 py-2 bg-white border pl-8 border-gray-200 dark:border-gray-800 rounded-md text-sm !text-black !placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-gray-900 dark:focus:ring-gray-100 focus:border-transparent transition-all duration-200"
+                  className="w-full px-3 py-2 bg-white border pl-8 border-gray-200 dark:border-gray-800 rounded-md text-sm placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-gray-900 dark:focus:ring-gray-100 focus:border-transparent transition-all duration-200"
                 />
               </div>
             </div>
@@ -81,7 +82,7 @@ const SignIn = () => {
                     handleSetFormData("password", e.target.value)
                   }
                   placeholder="Your password"
-                  className="w-full px-3 py-2 pl-8 bg-white border border-gray-200 dark:border-gray-800 rounded-md text-sm !text-black !placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-gray-900 dark:focus:ring-gray-100 focus:border-transparent transition-all duration-200"
+                  className="w-full px-3 py-2 pl-8 bg-white border border-gray-200 dark:border-gray-800 rounded-md text-sm placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-gray-900 dark:focus:ring-gray-100 focus:border-transparent transition-all duration-200"
                 />
                 <button
                   type="button"
@@ -106,7 +107,12 @@ const SignIn = () => {
             <p className="text-sm text-gray-600 dark:text-gray-400">
               Don't have an account?{" "}
               <Link
-                to={{ pathname: `${URL.AUTH}/${URL.SIGN_UP}` }}
+                to={{
+                  pathname: CREATE_COMBINATION_TWO_AGRUMENTS(
+                    URL.AUTH,
+                    URL.SIGN_UP
+                  ),
+                }}
                 className="text-gray-900 font-medium hover:underline"
               >
                 Click here!
@@ -117,7 +123,12 @@ const SignIn = () => {
             <p className="text-sm text-gray-600 dark:text-gray-400">
               Forgot the password?{" "}
               <Link
-                to={{ pathname: `${URL.AUTH}/${URL.FORGOT_PASSWORD}` }}
+                to={{
+                  pathname: CREATE_COMBINATION_TWO_AGRUMENTS(
+                    URL.AUTH,
+                    URL.FORGOT_PASSWORD
+                  ),
+                }}
                 className="text-gray-900 font-medium hover:underline"
               >
                 Click here!

@@ -11,6 +11,7 @@ import {
 } from "./icons";
 import { useSignUp } from "@/hooks";
 import type { CreateUserDto } from "@/interfaces";
+import { CREATE_COMBINATION_TWO_AGRUMENTS } from "@/helpers";
 
 const SignUp = () => {
   const { handleSignUp, loading } = useSignUp();
@@ -67,7 +68,7 @@ const SignUp = () => {
                 value={formData.name}
                 onChange={(e) => handleSetFormData("name", e.target.value)}
                 placeholder="Enter your full name"
-                className="w-full px-3 py-2 bg-white border border-gray-200 dark:border-gray-800 rounded-md text-sm !text-black !placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-gray-900 dark:focus:ring-gray-100 focus:border-transparent transition-all duration-200"
+                className="w-full px-3 py-2 bg-white border border-gray-200 dark:border-gray-800 rounded-md text-sm placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-gray-900 dark:focus:ring-gray-100 focus:border-transparent transition-all duration-200"
               />
             </div>
 
@@ -84,7 +85,7 @@ const SignUp = () => {
                   value={formData.email}
                   onChange={(e) => handleSetFormData("email", e.target.value)}
                   placeholder="name@example.com"
-                  className="w-full px-3 py-2 bg-white border pl-8 border-gray-200 dark:border-gray-800 rounded-md text-sm !text-black !placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-gray-900 dark:focus:ring-gray-100 focus:border-transparent transition-all duration-200"
+                  className="w-full px-3 py-2 bg-white border pl-8 border-gray-200 dark:border-gray-800 rounded-md text-sm placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-gray-900 dark:focus:ring-gray-100 focus:border-transparent transition-all duration-200"
                 />
               </div>
             </div>
@@ -106,7 +107,7 @@ const SignUp = () => {
                     handleSetFormData("password", e.target.value)
                   }
                   placeholder="Create a password"
-                  className="w-full px-3 py-2 bg-white pl-8 border border-gray-200 dark:border-gray-800 rounded-md text-sm !text-black !placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-gray-900 dark:focus:ring-gray-100 focus:border-transparent transition-all duration-200"
+                  className="w-full px-3 py-2 bg-white pl-8 border border-gray-200 dark:border-gray-800 rounded-md text-sm placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-gray-900 dark:focus:ring-gray-100 focus:border-transparent transition-all duration-200"
                 />
                 <button
                   type="button"
@@ -172,7 +173,12 @@ const SignUp = () => {
             <p className="text-sm text-gray-600 dark:text-gray-400">
               Already have an account?{" "}
               <Link
-                to={{ pathname: `${URL.AUTH}/${URL.SIGN_IN}` }}
+                to={{
+                  pathname: CREATE_COMBINATION_TWO_AGRUMENTS(
+                    URL.AUTH,
+                    URL.SIGN_IN
+                  ),
+                }}
                 className="text-gray-900 font-medium hover:underline"
               >
                 Sign in

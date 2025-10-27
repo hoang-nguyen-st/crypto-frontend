@@ -1,5 +1,5 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Heart, MessageCircle, Share2, Bookmark } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 interface PostCardProps {
   author: string;
@@ -52,7 +52,6 @@ export const PostCard = ({
         </div>
       </div>
 
-      {/* Content */}
       <div className="px-4 pb-4">
         <p
           className="text-foreground leading-relaxed"
@@ -60,7 +59,6 @@ export const PostCard = ({
         />
       </div>
 
-      {/* Image */}
       {image && (
         <div className="px-4 pb-4">
           <img
@@ -71,7 +69,6 @@ export const PostCard = ({
         </div>
       )}
 
-      {/* Actions */}
       <div className="px-4 pb-4 flex items-center gap-6">
         <button className="flex items-center gap-2 text-muted-foreground hover:text-red-500 transition-colors group">
           <Heart className="h-5 w-5 group-hover:fill-red-500" />

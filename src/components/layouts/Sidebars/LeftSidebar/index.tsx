@@ -1,18 +1,26 @@
 import { useNavigate, useLocation, Link } from "react-router-dom";
-import { Zap, Sun, Moon } from "lucide-react";
+import { LogOut, Moon, Settings, Sun, UserPlus, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import {
-  CREATE_COMBINATION_TWO_AGRUMENTS,
-  sidebarItems,
-  URL,
-} from "@/constants";
+import { sidebarItems, URL } from "@/constants";
+import { useAuth } from "@/contexts";
 import { useTheme } from "@/hooks/useTheme";
+import { CREATE_COMBINATION_TWO_AGRUMENTS } from "@/helpers";
+import {
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+} from "@radix-ui/react-dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export const LeftSidebar = () => {
   const navigate = useNavigate();
+  const { user, logout } = useAuth();
   const location = useLocation();
-   const { theme, toggleTheme } = useTheme();
+  const { theme, toggleTheme } = useTheme();
   return (
     <aside className="w-[280px] bg-card border-r border-border h-screen sticky top-0 flex flex-col">
       <div className="p-6 border-b border-border">
@@ -21,10 +29,8 @@ export const LeftSidebar = () => {
           <span className="text-2xl font-bold text-foreground">EnderIO</span>
         </div>
         <div>
-          <button
-          className="border-b"
-          onClick={toggleTheme}>
-          {theme === "dark" ? <Moon size={20} /> : <Sun size={20} />}
+          <button className="border-b" onClick={toggleTheme}>
+            {theme === "dark" ? <Moon size={20} /> : <Sun size={20} />}
           </button>
         </div>
       </div>
@@ -36,7 +42,7 @@ export const LeftSidebar = () => {
             to={item.path}
             onClick={() => navigate(item.path)}
             className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left transition ${
-              location.pathname === item.path
+              location.pathname === `/${item.path}`.replace("//", "/")
                 ? "bg-primary/10 text-primary font-medium"
                 : "text-muted-foreground hover:bg-secondary"
             }`}
@@ -59,16 +65,62 @@ export const LeftSidebar = () => {
       </div>
 
       <div className="p-4 border-t border-border">
-        <div className="flex items-center gap-3">
-          <Avatar className="h-10 w-10">
-            <AvatarImage src="https://api.dicebear.com/7.x/avataaars/svg?seed=greatstack" />
-            <AvatarFallback>L</AvatarFallback>
-          </Avatar>
-          <div className="flex-1 min-w-0">
-            <p className="font-medium text-sm text-foreground">Lam Hoang</p>
-            <p className="text-xs text-muted-foreground">@lamhoang</p>
-          </div>
-        </div>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <button className="w-full flex items-center gap-3 hover:bg-secondary rounded-lg p-2 transition-colors cursor-pointer">
+              <Avatar className="h-10 w-10">
+                <AvatarImage src={user?.avatar} />
+                <AvatarFallback>{user?.name[0]}</AvatarFallback>
+              </Avatar>
+              <div className="flex-1 min-w-0 text-left">
+                <p className="font-medium text-sm text-foreground">
+                  {user?.name}
+                </p>
+                <p className="text-xs text-muted-foreground line-clamp-1 text-ellipsis">
+                  {user?.email}
+                </p>
+              </div>
+            </button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent side="top" align="start" className="mb-2">
+            <div className="px-2 py-3">
+              <div className="flex items-center gap-3 mb-3">
+                <Avatar className="h-10 w-10">
+                  <AvatarImage src={user?.avatar} />
+                  <AvatarFallback>{user?.name[0]}</AvatarFallback>
+                </Avatar>
+                <div className="flex-1 min-w-0">
+                  <p className="font-semibold text-sm text-foreground">
+                    {user?.name}
+                  </p>
+                  <p className="text-xs text-muted-foreground line-clamp-1">
+                    {user?.email}
+                  </p>
+                </div>
+              </div>
+              <div className="flex gap-2">
+                <Button variant="outline" size="sm" className="flex-1 text-xs">
+                  <Settings className="h-3 w-3 mr-1" />
+                  Manage account
+                </Button>
+                <Button
+                  onClick={() => logout()}
+                  variant="outline"
+                  size="sm"
+                  className="flex-1 text-xs text-red-400 hover:text-red-400"
+                >
+                  <LogOut className="h-3 w-3 mr-1" />
+                  Sign out
+                </Button>
+              </div>
+            </div>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem className="cursor-pointer">
+              <UserPlus className="h-4 w-4 mr-2" />
+              Add account
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </aside>
   );

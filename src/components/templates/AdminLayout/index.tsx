@@ -1,7 +1,7 @@
-import { URL, UserRole } from "@/constants";
-import { useAuth } from "@/contexts";
 import { useEffect } from "react";
 import { Outlet, useNavigate } from "react-router";
+import { URL, UserRole } from "@/constants";
+import { useAuth } from "@/contexts";
 
 const AdminLayout = () => {
   const { user } = useAuth();
@@ -12,6 +12,7 @@ const AdminLayout = () => {
       navigate(URL.FEED);
     }
   }, [user, navigate]);
+
   return (
     <div>
       <Outlet />

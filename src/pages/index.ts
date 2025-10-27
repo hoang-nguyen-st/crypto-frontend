@@ -1,11 +1,12 @@
-import Feed from "@/pages/Feed";
-import Messages from "@/pages/Messages";
-import Connections from "@/pages/Connections";
-import Discover from "@/pages/Discover";
-import Profile from "@/pages/Profile";
-import CreatePost from "@/pages/CreatePost";
+import Feed from "./Feed";
+import Messages from "./Messages";
+import Connections from "./Connections";
+import Discover from "./Discover";
+import Profile from "./Profile";
+import CreatePost from "./CreatePost";
 import { SignUp, SignIn, ForgotPassword, ResetPassword } from "./Auth";
 import { AdminDashboard } from "./Admin";
+import { NotFound } from "./Errors";
 
 export {
   Feed,
@@ -19,4 +20,5 @@ export {
   ForgotPassword,
   ResetPassword,
   AdminDashboard,
+  NotFound,
 };

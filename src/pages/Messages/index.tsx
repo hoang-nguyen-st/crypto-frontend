@@ -30,7 +30,7 @@ const conversations = [
 
 const Messages = () => {
   return (
-    <div className="max-w-[800px] mx-auto py-6 px-8">
+    <div className="">
       <h1 className="text-4xl font-bold text-foreground mb-2">Messages</h1>
       <p className="text-muted-foreground mb-8">
         Talk to your friends and family
