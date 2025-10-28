@@ -4,6 +4,8 @@ import toast from "react-hot-toast";
 import { CREATE_POST } from "@/graphql";
 import type { CreatePostDto } from "@/interfaces";
 import { URL } from "@/constants";
+import { createPostSchema } from "@/validations";
+import type { ValidationError } from "yup";
 
 const useCreatePost = () => {
   const navigate = useNavigate();
@@ -14,6 +16,20 @@ const useCreatePost = () => {
   >(CREATE_POST);
 
   const handleCreatePost = async (payload: CreatePostDto) => {
+    try {
+      await createPostSchema.validate(payload, { abortEarly: false });
+    } catch (error) {
+      const err = error as ValidationError;
+      if (err.inner && err.inner.length > 0) {
+        err.inner.forEach((e) => {
+          if (e.message) {
+            toast.error(e.message, { position: "top-right" });
+          }
+        });
+      }
+      return;
+    }
+
     await toast.promise(
       (async () => {
         const { data } = await createPostMutation({

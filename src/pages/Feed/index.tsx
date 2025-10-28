@@ -29,6 +29,7 @@ const Feed = () => {
         username={"Lam Hoang"}
         verified={true}
       />
+      
     </div>
   );
 };
