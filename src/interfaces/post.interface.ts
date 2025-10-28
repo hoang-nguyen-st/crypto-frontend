@@ -20,3 +20,12 @@ export interface CreatePostDto {
   content: string;
   thumbnail?: File | null;
 }
+
+export interface GetPostDto {
+  id: string;
+  thumbnail?: string | null; 
+  content: string;
+}
+export interface GetPostsResponse {
+  posts: GetPostDto[];
+}

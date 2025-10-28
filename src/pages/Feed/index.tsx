@@ -1,7 +1,18 @@
 import { cn } from "@/lib/utils";
 import { StoryCard, PostCard } from "./components";
+import { useQuery } from "@apollo/client";
+import { GET_ALL_POSTS } from "@/graphql/queries";
+import { useAuth } from "@/contexts";
+import type { GetPostsResponse } from "@/interfaces";
 
 const Feed = () => {
+  const { user } = useAuth();
+  const { data, loading, error } = useQuery<GetPostsResponse>(GET_ALL_POSTS);
+  const posts = data?.posts || [];
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error loading posts: {error.message}</div>;
+
   return (
     <div className={cn("space-y-6")}>
       <div className="mb-6 flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
@@ -20,15 +31,27 @@ const Feed = () => {
           timeAgo="23 minutes ago"
         />
       </div>
-
-      <PostCard
-        author={"Lam Hoang"}
-        avatar={""}
-        content={"Capuchino"}
-        timeAgo="2 days ago"
-        username={"Lam Hoang"}
-        verified={true}
-      />
+      {posts.length > 0 ? (
+        posts
+        .slice()
+        .reverse()
+        .map((post) => (
+          <PostCard
+            key={post.id}
+            author={user!.name}
+            username="@undefined" 
+            avatar="" 
+            timeAgo="2 days ago" 
+            content={post.content}
+            image={post.thumbnail} 
+            verified={false} 
+          />
+        ))
+      ) : (
+        <div className="text-center text-muted-foreground py-8">
+          No posts available
+        </div>
+      )}
       
     </div>
   );

@@ -4,14 +4,16 @@ import toast from "react-hot-toast";
 import { CREATE_POST } from "@/graphql";
 import type { CreatePostDto } from "@/interfaces";
 import { URL } from "@/constants";
+import { GET_ALL_POSTS } from "@/graphql/queries";
 
 const useCreatePost = () => {
   const navigate = useNavigate();
-
   const [createPostMutation, { loading }] = useMutation<
     { id: string },
     { input: CreatePostDto }
-  >(CREATE_POST);
+  >(CREATE_POST, {
+    refetchQueries: [{ query: GET_ALL_POSTS }],
+  });
 
   const handleCreatePost = async (payload: CreatePostDto) => {
     await toast.promise(

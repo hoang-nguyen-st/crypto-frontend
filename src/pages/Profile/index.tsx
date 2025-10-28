@@ -3,8 +3,10 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PostCard } from "@/pages/Feed/components/Post";
+import { useAuth } from "@/contexts/useAuth";
 
 const Profile = () => {
+  const { user } = useAuth();
   return (
     <div>
       <div className="h-[280px] relative overflow-hidden rounded-b-2xl">
@@ -89,14 +91,16 @@ const Profile = () => {
           </TabsList>
 
           <TabsContent value="posts" className="mt-6 space-y-6">
+
             <PostCard
-              author="Lam Hoang"
-              username="@lamhoang"
+              author={user!.name}
+              username={user!.id}
               avatar=""
-              timeAgo="2 days ago"
-              content="Capuchino"
+              timeAgo="3 days ago"
+              content="ABC"
               verified
             />
+
           </TabsContent>
           <TabsContent value="media" className="mt-6">
             <p className="text-muted-foreground text-center py-8">

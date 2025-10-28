@@ -11,4 +11,14 @@ const GET_POSTS = gql`
   }
 `;
 
-export { GET_POSTS };
+const GET_ALL_POSTS = gql`
+  query Query {
+    posts {
+      id
+      thumbnail
+      content
+    }
+  }
+`;
+
+export { GET_POSTS, GET_ALL_POSTS };
