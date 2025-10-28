@@ -1,5 +1,5 @@
 import { useNavigate, useLocation, Link } from "react-router-dom";
-import { LogOut, Moon, Settings, Sun, UserPlus, Zap } from "lucide-react";
+import { LogOut, Moon, Settings, Sun, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { sidebarItems, URL } from "@/constants";
@@ -27,9 +27,7 @@ export const LeftSidebar = () => {
         <div className="flex items-center gap-2">
           <Zap className="h-8 w-8 text-primary fill-primary" />
           <span className="text-2xl font-bold text-foreground">EnderIO</span>
-        </div>
-        <div>
-          <button className="border-b" onClick={toggleTheme}>
+          <button className="border-b cursor-pointer" onClick={toggleTheme}>
             {theme === "dark" ? <Moon size={20} /> : <Sun size={20} />}
           </button>
         </div>
@@ -58,7 +56,7 @@ export const LeftSidebar = () => {
           onClick={() =>
             navigate(CREATE_COMBINATION_TWO_AGRUMENTS(URL.CREATE, URL.POST))
           }
-          className="w-full bg-primary hover:bg-primary-hover text-primary-foreground rounded-xl h-12 font-medium shadow-md"
+          className="w-full bg-primary hover:bg-primary-hover text-primary-foreground rounded-xl h-12 font-medium shadow-md cursor-pointer"
         >
           <span className="text-xl mr-2">+</span> Create Post
         </Button>
@@ -107,7 +105,7 @@ export const LeftSidebar = () => {
                   onClick={() => logout()}
                   variant="outline"
                   size="sm"
-                  className="flex-1 text-xs text-red-400 hover:text-red-400"
+                  className="flex-1 text-xs text-red-400 hover:text-red-400 cursor-pointer"
                 >
                   <LogOut className="h-3 w-3 mr-1" />
                   Sign out
@@ -115,10 +113,7 @@ export const LeftSidebar = () => {
               </div>
             </div>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="cursor-pointer">
-              <UserPlus className="h-4 w-4 mr-2" />
-              Add account
-            </DropdownMenuItem>
+            <DropdownMenuItem className="cursor-pointer"></DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

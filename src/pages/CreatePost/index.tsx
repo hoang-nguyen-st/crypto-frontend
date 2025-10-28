@@ -12,7 +12,7 @@ const CreatePost = () => {
   const { user } = useAuth();
   const fileInput = useRef<HTMLInputElement>(null);
   const contentRef = useRef<HTMLTextAreaElement>(null);
-  const { handleCreatePost } = useCreatePost();
+  const { handleCreatePost, loading } = useCreatePost();
 
   const [thumbnail, setThumbnail] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
@@ -34,10 +34,18 @@ const CreatePost = () => {
 
     const payload: CreatePostDto = {
       content,
-      thumbnail: thumbnail,
+      thumbnail,
     };
     handleCreatePost(payload);
   };
+
+  const handleRevoke = () => {
+    if(previewUrl!){
+      URL.revokeObjectURL(previewUrl!);
+    }
+    setPreviewUrl(null);
+    setThumbnail(null);
+  }
 
   return (
     <div>
@@ -68,15 +76,25 @@ const CreatePost = () => {
           />
 
           {previewUrl && (
-            <img
-              src={previewUrl}
-              alt="Preview"
-              className="my-4 rounded-lg max-h-60 object-cover"
-            />
+            <div className="relative inline-block">
+              <img
+                src={previewUrl}
+                alt="Preview"
+                className="my-4 rounded-lg max-h-60 object-cover"
+              />
+              <button 
+                type="button"
+                onClick={handleRevoke}
+                className="absolute top-2 -right-1.5 px-2 rounded-full text-lg bg-red-400 text-white hover:bg-red-500 transition-colors flex items-center justify-center cursor-pointer"
+              >
+                &times;
+              </button>
+            </div>
           )}
 
           <div className="flex items-center justify-between pt-4 border-t border-border">
             <div
+              onClick={handleClick}
               className={cn(
                 "h-10 w-10 hover:bg-gray-300 flex items-center justify-center transition rounded-md cursor-pointer"
               )}
@@ -87,13 +105,12 @@ const CreatePost = () => {
                 type="file"
                 hidden
               />
-              <Image
-                onClick={handleClick}
-                size={20}
-                className={cn("text-muted-foreground")}
-              />
+              <Image size={20} className={cn("text-muted-foreground")} />
             </div>
-            <Button className="bg-primary hover:bg-primary-hover text-primary-foreground px-8">
+            <Button
+              className="bg-primary hover:bg-primary-hover text-primary-foreground px-8 cursor-pointer"
+              disabled={loading}
+            >
               Publish Post
             </Button>
           </div>
