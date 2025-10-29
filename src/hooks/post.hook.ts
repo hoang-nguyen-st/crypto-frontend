@@ -2,11 +2,15 @@ import { ApolloError, useMutation, useQuery } from "@apollo/client";
 import { useNavigate } from "react-router";
 import toast from "react-hot-toast";
 import { CREATE_POST } from "@/graphql";
-import type { CreatePostDto, GetPostsResponse } from "@/interfaces";
+import type {
+  CreatePostDto,
+  GetPostsResponse,
+  GetOwnPostsResponse,
+} from "@/interfaces";
 import { URL } from "@/constants";
 import { createPostSchema } from "@/validations";
 import type { ValidationError } from "yup";
-import { GET_ALL_POSTS } from "@/graphql/queries";
+import { GET_ALL_POSTS, GET_OWN_POSTS } from "@/graphql/queries";
 
 const useCreatePost = () => {
   const navigate = useNavigate();
@@ -57,10 +61,16 @@ const useCreatePost = () => {
   return { handleCreatePost, loading };
 };
 
-const useGetPosts = () => {
+const useGetAllPosts = () => {
   const { data, loading, error } = useQuery<GetPostsResponse>(GET_ALL_POSTS);
   const posts = data?.posts || [];
   return { posts, loading, error };
-}
+};
 
-export { useCreatePost, useGetPosts };
+const useGetOwnPosts = () => {
+  const { data, loading, error } = useQuery<GetOwnPostsResponse>(GET_OWN_POSTS);
+  const posts = data?.getPostBelongToUser || [];
+  return { posts, loading, error };
+};
+
+export { useCreatePost, useGetAllPosts, useGetOwnPosts };

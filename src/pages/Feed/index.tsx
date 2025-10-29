@@ -1,10 +1,10 @@
 import { cn } from "@/lib/utils";
 import { StoryCard, PostCard } from "./components";
-import { useGetPosts } from "@/hooks";
+import { useGetAllPosts } from "@/hooks";
 import { calculateTimeAgo } from "@/helpers";
 
 const Feed = () => {
-  const { posts, loading, error } = useGetPosts();
+  const { posts, loading, error } = useGetAllPosts();
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error loading posts: {error.message}</div>;
 
