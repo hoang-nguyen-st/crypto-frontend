@@ -10,6 +10,7 @@ import { useAuth } from "@/contexts";
 const Profile = () => {
   const { user } = useAuth();
   const { posts, loading, error } = useGetOwnPosts();
+  const totalPosts = posts.length;
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error loading posts: {error.message}</div>;
   console.log(posts);
@@ -40,10 +41,12 @@ const Profile = () => {
               </div>
               <p className="text-muted-foreground mb-3">{user?.email}</p>
               <p className="text-foreground max-w-2xl leading-relaxed mb-3">
+                Assasino Capuchino
               </p>
               <div className="flex items-center gap-4 text-sm text-muted-foreground">
                 <div className="flex items-center gap-1">
                   <Calendar className="h-4 w-4" />
+                  <p>2000 B.C.</p>
                 </div>
               </div>
             </div>
@@ -55,11 +58,11 @@ const Profile = () => {
 
         <div className="flex gap-8 mb-6">
           <div>
-            <span className="text-2xl font-bold text-foreground">2</span>
+            <span className="text-2xl font-bold text-foreground">{totalPosts}</span>
             <span className="text-muted-foreground ml-2">Posts</span>
           </div>
           <div>
-            <span className="text-2xl font-bold text-foreground">6</span>
+            <span className="text-2xl font-bold text-foreground">8,000,000,000</span>
             <span className="text-muted-foreground ml-2">Followers</span>
           </div>
           <div>
@@ -72,19 +75,19 @@ const Profile = () => {
           <TabsList className="w-full justify-start bg-transparent rounded-none h-auto">
             <TabsTrigger
               value="posts"
-              className="rounded-lg border-transparent data-[state=active]:border-gray-200 data-[state=active]:bg-transparent px-8 py-3"
+              className="rounded-lg border-transparent data-[state=active]:border-gray-200 data-[state=active]:bg-transparent px-8 py-3 cursor-pointer"
             >
               Posts
             </TabsTrigger>
             <TabsTrigger
               value="media"
-              className="rounded-lg border-transparent data-[state=active]:border-gray-200 data-[state=active]:bg-transparent px-8 py-3"
+              className="rounded-lg border-transparent data-[state=active]:border-gray-200 data-[state=active]:bg-transparent px-8 py-3 cursor-pointer"
             >
               Media
             </TabsTrigger>
             <TabsTrigger
               value="likes"
-              className="rounded-lg border-transparent data-[state=active]:border-gray-200 data-[state=active]:bg-transparent px-8 py-3"
+              className="rounded-lg border-transparent data-[state=active]:border-gray-200 data-[state=active]:bg-transparent px-8 py-3 cursor-pointer"
             >
               Likes
             </TabsTrigger>
