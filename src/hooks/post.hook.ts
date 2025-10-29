@@ -1,8 +1,8 @@
-import { ApolloError, useMutation } from "@apollo/client";
+import { ApolloError, useMutation, useQuery } from "@apollo/client";
 import { useNavigate } from "react-router";
 import toast from "react-hot-toast";
 import { CREATE_POST } from "@/graphql";
-import type { CreatePostDto } from "@/interfaces";
+import type { CreatePostDto, GetPostsResponse } from "@/interfaces";
 import { URL } from "@/constants";
 import { GET_ALL_POSTS } from "@/graphql/queries";
 
@@ -41,4 +41,10 @@ const useCreatePost = () => {
   return { handleCreatePost, loading };
 };
 
-export { useCreatePost };
+const useGetPosts = () => {
+  const { data, loading, error } = useQuery<GetPostsResponse>(GET_ALL_POSTS);
+  const posts = data?.posts || [];
+  return { posts, loading, error };
+}
+
+export { useCreatePost, useGetPosts };

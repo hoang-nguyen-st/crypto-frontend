@@ -14,9 +14,17 @@ const GET_POSTS = gql`
 const GET_ALL_POSTS = gql`
   query Query {
     posts {
+      user {
+        id
+        avatar
+        email
+        name
+      }
       id
-      thumbnail
       content
+      thumbnail
+      updatedAt
+      createdAt
     }
   }
 `;
