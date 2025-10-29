@@ -13,3 +13,10 @@ export interface User {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface GetUserByPost {
+  id: string;
+  name: string;
+  avatar?: string;
+  email: string;
+}
