@@ -11,6 +11,24 @@ const GET_POSTS = gql`
   }
 `;
 
+const GET_OWN_POSTS = gql`
+  query Query {
+    getPostBelongToUser {
+      user {
+        id
+        avatar
+        email
+        name
+      }  
+      id
+      content
+      thumbnail
+      updatedAt
+      createdAt
+    }
+  }
+`;
+
 const GET_ALL_POSTS = gql`
   query Query {
     posts {
@@ -29,4 +47,4 @@ const GET_ALL_POSTS = gql`
   }
 `;
 
-export { GET_POSTS, GET_ALL_POSTS };
+export { GET_POSTS, GET_ALL_POSTS, GET_OWN_POSTS };

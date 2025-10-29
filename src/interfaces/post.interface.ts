@@ -21,7 +21,7 @@ export interface CreatePostDto {
   thumbnail?: File | null;
 }
 
-export interface GetPostDto {
+export interface GetPostsDto {
   id: string;
   thumbnail?: string;
   content: string;
@@ -29,6 +29,11 @@ export interface GetPostDto {
   updataedAt: string;
   user: GetUserByPost;
 }
+
 export interface GetPostsResponse {
-  posts: GetPostDto[];
+  posts: GetPostsDto[];
+}
+
+export interface GetOwnPostsResponse {
+  getPostBelongToUser: GetPostsDto[];
 }

@@ -1,12 +1,19 @@
-import { MapPin, Calendar, CheckCircle2 } from "lucide-react";
+import { Calendar, CheckCircle2 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PostCard } from "@/pages/Feed/components/Post";
-import { useAuth } from "@/contexts/useAuth";
+import { useGetOwnPosts } from "@/hooks";
+import { calculateTimeAgo } from "@/helpers";
+import { useAuth } from "@/contexts";
 
 const Profile = () => {
   const { user } = useAuth();
+  const { posts, loading, error } = useGetOwnPosts();
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error loading posts: {error.message}</div>;
+  console.log(posts);
+
   return (
     <div>
       <div className="h-[280px] relative overflow-hidden rounded-b-2xl">
@@ -21,29 +28,22 @@ const Profile = () => {
         <div className="flex items-start justify-between mb-6">
           <div className="flex gap-4">
             <Avatar className="h-32 w-32 border-4 border-card -mt-24">
-              <AvatarImage src="https://api.dicebear.com/7.x/avataaars/svg?seed=greatstack" />
-              <AvatarFallback>GS</AvatarFallback>
+              <AvatarImage src={user?.avatar} />
+              <AvatarFallback className="text-3xl">{user?.name[0]}</AvatarFallback>
             </Avatar>
             <div className="mt-4">
               <div className="flex items-center gap-2 mb-1">
                 <h1 className="text-2xl font-bold text-foreground">
-                  Lam Hoang
+                  {user?.name}
                 </h1>
                 <CheckCircle2 className="h-6 w-6 text-primary fill-primary" />
               </div>
-              <p className="text-muted-foreground mb-3">@lamhoang</p>
+              <p className="text-muted-foreground mb-3">{user?.email}</p>
               <p className="text-foreground max-w-2xl leading-relaxed mb-3">
-                🟢 Dreamer | 📚 Learner | 🚀 Doer Exploring life one step at a
-                time. ✨ Staying curious. Creating with purpose.
               </p>
               <div className="flex items-center gap-4 text-sm text-muted-foreground">
                 <div className="flex items-center gap-1">
-                  <MapPin className="h-4 w-4" />
-                  <span>Da nang, Viet Nam</span>
-                </div>
-                <div className="flex items-center gap-1">
                   <Calendar className="h-4 w-4" />
-                  <span>Joined 22 days ago</span>
                 </div>
               </div>
             </div>
@@ -91,16 +91,21 @@ const Profile = () => {
           </TabsList>
 
           <TabsContent value="posts" className="mt-6 space-y-6">
-
-            <PostCard
-              author={user!.name}
-              username={user!.id}
-              avatar=""
-              timeAgo="3 days ago"
-              content="ABC"
-              verified
-            />
-
+            {posts.length > 0 ? (
+              posts.map((post) => (
+                <PostCard
+                  key={post.id}
+                  author={post.user.name || "Unknown"}
+                  username={post.user?.email || "unknown"}
+                  avatar={post.user?.avatar || ""}
+                  timeAgo={calculateTimeAgo(post.createdAt || "")}
+                  image={post?.thumbnail || undefined}
+                  content={post.content}
+                />
+              ))
+            ) : (
+              <div>No posts available.</div>
+            )}
           </TabsContent>
           <TabsContent value="media" className="mt-6">
             <p className="text-muted-foreground text-center py-8">
