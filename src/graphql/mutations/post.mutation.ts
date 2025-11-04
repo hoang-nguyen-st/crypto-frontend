@@ -8,4 +8,10 @@ const CREATE_POST = gql`
   }
 `;
 
-export { CREATE_POST };
+const DELETE_POST_BY_ADMIN = gql`
+  mutation Mutation($input: DeletePostByAdmin!) {
+    deletePostByAdmin(input: $input)
+  }
+`;
+
+export { CREATE_POST, DELETE_POST_BY_ADMIN };

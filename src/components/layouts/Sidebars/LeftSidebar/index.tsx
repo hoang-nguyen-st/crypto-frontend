@@ -34,21 +34,31 @@ export const LeftSidebar = () => {
       </div>
 
       <nav className="flex-1 p-4 space-y-2">
-        {sidebarItems.map((item, index: number) => (
-          <Link
-            key={index}
-            to={item.path}
-            onClick={() => navigate(item.path)}
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left transition ${
-              location.pathname === `/${item.path}`.replace("//", "/")
-                ? "bg-primary/10 text-primary font-medium"
-                : "text-muted-foreground hover:bg-secondary"
-            }`}
-          >
-            <item.icon className="h-5 w-5" />
-            <span>{item.label}</span>
-          </Link>
-        ))}
+        {sidebarItems
+          // .filter((item) => {
+          //   if (!item.roles || item.roles.length === 0) {
+          //     return true;
+          //   }
+          //   if(!user || !user.role){
+          //     return false;
+          //   }
+          //   return item.roles.includes(user.role);
+          // })
+          .map((item, index: number) => (
+            <Link
+              key={index}
+              to={item.path}
+              onClick={() => navigate(item.path)}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left transition ${
+                location.pathname === `/${item.path}`.replace("//", "/")
+                  ? "bg-primary/10 text-primary font-medium"
+                  : "text-muted-foreground hover:bg-secondary"
+              }`}
+            >
+              <item.icon className="h-5 w-5" />
+              <span>{item.label}</span>
+            </Link>
+          ))}
       </nav>
 
       <div className="p-4">

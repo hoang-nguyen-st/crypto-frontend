@@ -20,3 +20,7 @@ export interface GetUserByPost {
   avatar?: string;
   email: string;
 }
+
+export interface GetAllUsersResponse {
+  users: GetUserByPost[];
+}
