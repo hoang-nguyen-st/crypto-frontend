@@ -26,6 +26,7 @@
     "dotenv": "^16.5.0",
     "frontend": "file:",
     "graphql": "^16.11.0",
+    "graphql-ws": "^6.0.6",
     "lucide-react": "^0.545.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",

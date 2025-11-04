@@ -1,4 +1,3 @@
-import { Heart, MessageCircle, Share2, Bookmark } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export interface PostCardProps {
@@ -69,7 +68,7 @@ export const PostCard = ({
         </div>
       )}
 
-      <div className="px-4 pb-4 flex items-center gap-6">
+      {/* <div className="px-4 pb-4 flex items-center gap-6">
         <button className="flex items-center gap-2 text-muted-foreground hover:text-red-500 transition-colors group">
           <Heart className="h-5 w-5 group-hover:fill-red-500" />
           <span className="text-sm">124</span>
@@ -85,7 +84,7 @@ export const PostCard = ({
         <button className="ml-auto text-muted-foreground hover:text-primary transition-colors">
           <Bookmark className="h-5 w-5" />
         </button>
-      </div>
+      </div> */}
     </div>
   );
 };

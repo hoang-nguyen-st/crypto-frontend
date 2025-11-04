@@ -13,7 +13,6 @@ const Profile = () => {
   const totalPosts = posts.length;
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error loading posts: {error.message}</div>;
-  console.log(posts);
 
   return (
     <div>
