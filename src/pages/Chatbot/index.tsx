@@ -1,82 +1,88 @@
-import { type FormEvent, useRef, useState } from "react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useEffect, useRef, useState, type FormEvent } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { useAuth } from "@/contexts";
-import axios from "axios";
-
-const backendUrl = 'http://localhost:3001/api/llm-chat';
+import { useAiMessage } from "@/hooks";
 
 const Chatbot = () => {
-  const { user } = useAuth();
   const promptRef = useRef<HTMLTextAreaElement>(null);
-  const [aiResponse, setAiResponse] = useState<string>("Hello! How can I assist you today?");
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [dataPayload, setDataPayload] = useState<string>(
+    "How can I help you today?"
+  );
+  const [isGenerating, setIsGenerating] = useState(false);
+  const { data, chatMessageMutation } = useAiMessage();
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    const userPrompt: string = promptRef.current?.value?.trim() || "";
-    if (!userPrompt) {
-      return;
-    }
-    setIsLoading(true);
-    setAiResponse('Waiting'); 
-    try {
-      const response = await axios.post(backendUrl, {
-        prompt: userPrompt
-      });
 
-      const responseContent: string = response.data.response;
-      setAiResponse(responseContent);
+    const prompt = promptRef.current?.value.trim();
+
+    if (prompt && prompt.length > 5) {
+      setDataPayload("");
+      setIsGenerating(true);
+
+      try {
+        await chatMessageMutation({
+          variables: {
+            input: { prompt },
+          },
+        });
+      } catch (error) {
+        console.error("Error sending message:", error);
+        setDataPayload("Sorry, something went wrong. Please try again.");
+        setIsGenerating(false);
+      }
 
       if (promptRef.current) {
         promptRef.current.value = "";
       }
-
-    } catch (error) {
-      console.error("Calling Error:", error);
-      setAiResponse('Error while getting response.');
-    } finally {
-      setIsLoading(false); 
     }
   };
+
+  useEffect(() => {
+    if (data?.chatMessage) {
+      setDataPayload((prev) => prev + data.chatMessage);
+      setIsGenerating(false);
+    }
+  }, [data]);
+
   return (
     <div>
       <div className="mb-8">
         <h1 className="text-4xl font-bold text-foreground mb-2">Chatbot</h1>
-        <p className="text-muted-foreground">
-          Talk to your own Ai assistant!
-        </p>
+        <p className="text-muted-foreground">Talk to your own AI assistant!</p>
       </div>
-      
+
       <div className="bg-card border border-border rounded-2xl p-6 space-y-6">
         <div className="flex items-center gap-3">
-          <Avatar className="h-12 w-12">
-            <AvatarImage src={user?.avatar} />
-            <AvatarFallback>AI</AvatarFallback>
-          </Avatar>
           <div>
             <p className="font-semibold text-foreground">Chatbot</p>
           </div>
         </div>
-        <div 
-          className="text-left text-base bg-gray-100 p-4 border-none w-full h-50 flex items-start"
-        >
-          <span className="leading-none">{aiResponse}</span>
+
+        <div className="text-left text-base bg-gray-100 p-4 border-none w-full min-h-[200px] flex items-start rounded-lg">
+          <span className="leading-relaxed whitespace-pre-wrap">
+            {dataPayload}
+            {isGenerating && !dataPayload && (
+              <span className="inline-block w-2 h-5 bg-gray-400 animate-pulse ml-1" />
+            )}
+          </span>
         </div>
+
         <form onSubmit={handleSubmit}>
           <Textarea
             ref={promptRef}
             placeholder="Ask me anything!"
-            className="min-h-[50px] resize-none border-border text-base"
+            className="min-h-[100px] resize-none border-border text-base"
+            disabled={isGenerating}
           />
 
           <div className="flex items-center justify-end pt-4 border-t border-border">
             <Button
-              className="bg-primary hover:bg-primary-hover button-right text-primary-foreground px-8 cursor-pointer"
-              disabled={isLoading}
+              type="submit"
+              disabled={isGenerating}
+              className="bg-primary hover:bg-primary-hover text-primary-foreground px-8 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Send
+              {isGenerating ? "Generating..." : "Send"}
             </Button>
           </div>
         </form>
