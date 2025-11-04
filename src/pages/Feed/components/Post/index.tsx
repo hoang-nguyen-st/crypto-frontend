@@ -1,7 +1,7 @@
 import { Heart, MessageCircle, Share2, Bookmark } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-interface PostCardProps {
+export interface PostCardProps {
   author: string;
   username: string;
   avatar: string;

@@ -1,7 +1,13 @@
 import { cn } from "@/lib/utils";
 import { StoryCard, PostCard } from "./components";
+import { useGetAllPosts } from "@/hooks";
+import { calculateTimeAgo } from "@/helpers";
 
 const Feed = () => {
+  const { posts, loading, error } = useGetAllPosts();
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error loading posts: {error.message}</div>;
+
   return (
     <div className={cn("space-y-6")}>
       <div className="mb-6 flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
@@ -20,15 +26,21 @@ const Feed = () => {
           timeAgo="23 minutes ago"
         />
       </div>
-
-      <PostCard
-        author={"Lam Hoang"}
-        avatar={""}
-        content={"Capuchino"}
-        timeAgo="2 days ago"
-        username={"Lam Hoang"}
-        verified={true}
-      />
+      {posts.length > 0 ? (
+        posts.map((post) => (
+          <PostCard
+            key={post.id}
+            author={post.user.name || "Unknown"}
+            username={post.user?.email || "unknown"}
+            avatar={post.user?.avatar || ""}
+            timeAgo={calculateTimeAgo(post.createdAt || "")}
+            image={post?.thumbnail || undefined}
+            content={post.content}
+          />
+        ))
+      ) : (
+        <div>No posts available.</div>
+      )}
     </div>
   );
 };

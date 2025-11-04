@@ -6,6 +6,8 @@ import {
   Connections,
   Discover,
   Profile,
+  Chatbot,
+  AdminPosts,
   CreatePost,
 } from "@/pages";
 import { URL } from "@/constants";
@@ -34,6 +36,14 @@ const routes: RouteObject[] = [
       {
         element: <Profile />,
         path: URL.PROFILE,
+      },
+      {
+        element: <Chatbot />,
+        path: URL.CHATBOT,
+      },
+      {
+        element: <AdminPosts />,
+        path: URL.ADMIN_POSTS_MANAGEMENT,
       },
       {
         element: <CreatePost />,

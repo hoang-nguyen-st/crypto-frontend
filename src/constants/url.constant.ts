@@ -4,6 +4,7 @@ export const URL = {
   CONNECTIONS: "connections",
   DISCOVER: "discover",
   PROFILE: "profile",
+  CHATBOT: "chatbot",
   CREATE: "create",
   POST: "post",
   AUTH: "auth",
@@ -12,4 +13,5 @@ export const URL = {
   FORGOT_PASSWORD: "forgot-password",
   RESET_PASSWORD: "reset-password",
   ADMIN: "admin",
+  ADMIN_POSTS_MANAGEMENT: "admin/posts-management",
 };

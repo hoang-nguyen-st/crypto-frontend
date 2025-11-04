@@ -1,4 +1,4 @@
-import type { Like, Tag, User } from ".";
+import type { GetUserByPost, Like, Tag, User } from ".";
 
 export interface Post {
   id: string;
@@ -19,4 +19,25 @@ export interface Post {
 export interface CreatePostDto {
   content: string;
   thumbnail?: File | null;
+}
+
+export interface GetPostsDto {
+  id: string;
+  thumbnail?: string;
+  content: string;
+  createdAt: string;
+  updataedAt: string;
+  user: GetUserByPost;
+}
+
+export interface GetPostsResponse {
+  posts: GetPostsDto[];
+}
+
+export interface GetOwnPostsResponse {
+  getPostBelongToUser: GetPostsDto[];
+}
+
+export interface GetPostsByAdminResponse {
+  getPostBelongToUserByAdmin: GetPostsDto[];
 }
