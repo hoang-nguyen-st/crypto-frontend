@@ -37,3 +37,7 @@ export interface GetPostsResponse {
 export interface GetOwnPostsResponse {
   getPostBelongToUser: GetPostsDto[];
 }
+
+export interface GetPostsByAdminResponse {
+  getPostBelongToUserByAdmin: GetPostsDto[];
+}

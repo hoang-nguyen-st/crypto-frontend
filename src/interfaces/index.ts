@@ -6,3 +6,4 @@ export * from "./comment.interface";
 export * from "./like.interface";
 export * from "./tag.interface";
 export * from "./auth.interface";
+export * from "./chatbot.interface";

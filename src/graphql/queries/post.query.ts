@@ -19,7 +19,7 @@ const GET_OWN_POSTS = gql`
         avatar
         email
         name
-      }  
+      }
       id
       content
       thumbnail
@@ -47,4 +47,26 @@ const GET_ALL_POSTS = gql`
   }
 `;
 
-export { GET_POSTS, GET_ALL_POSTS, GET_OWN_POSTS };
+const GET_POSTS_BY_ADMIN = gql`
+  query GetPostBelongToUserByAdmin($input: GetPostByAdmin!) {
+    getPostBelongToUserByAdmin(input: $input) {
+      user {
+        avatar
+        bio
+        createdAt
+        email
+        id
+        name
+        updatedAt
+      }
+      id
+      content
+      thumbnail
+      createdAt
+      updatedAt
+      published
+    }
+  }
+`;
+
+export { GET_POSTS, GET_ALL_POSTS, GET_OWN_POSTS, GET_POSTS_BY_ADMIN };

@@ -1,6 +1,6 @@
 import { URL, URL_NAME } from "@/constants";
 import type { SidebarInterfaceProps } from "@/interfaces";
-import { Home, MessageSquare, Users, Compass, User } from "lucide-react";
+import { Home, Users, User, Bot } from "lucide-react";
 
 const sidebarItems: SidebarInterfaceProps[] = [
   {
@@ -9,24 +9,19 @@ const sidebarItems: SidebarInterfaceProps[] = [
     icon: Home,
   },
   {
-    path: URL.MESSAGES,
-    label: URL_NAME.MESSAGES,
-    icon: MessageSquare,
-  },
-  {
-    path: URL.CONNECTIONS,
-    label: URL_NAME.CONNECTIONS,
-    icon: Users,
-  },
-  {
-    path: URL.DISCOVER,
-    label: URL_NAME.DISCOVER,
-    icon: Compass,
-  },
-  {
     path: URL.PROFILE,
     label: URL_NAME.PROFILE,
     icon: User,
+  },
+  {
+    path: URL.CHATBOT,
+    label: URL_NAME.CHATBOT,
+    icon: Bot,
+  },
+  {
+    path: URL.ADMIN_POSTS_MANAGEMENT,
+    label: URL_NAME.ADMIN,
+    icon: Users,
   },
 ];
 
