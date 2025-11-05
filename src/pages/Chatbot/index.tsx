@@ -1,49 +1,52 @@
-import { useEffect, useRef, useState, type FormEvent } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { useAiMessage } from "@/hooks";
+import { useInputPrompt } from "@/hooks";
+import { useRef, type FormEvent } from "react";
+import toast from "react-hot-toast";
 
 const Chatbot = () => {
   const promptRef = useRef<HTMLTextAreaElement>(null);
-  const [dataPayload, setDataPayload] = useState<string>(
-    "How can I help you today?"
-  );
-  const [isGenerating, setIsGenerating] = useState(false);
-  const { data, chatMessageMutation } = useAiMessage();
+  const { isGenerating, dataPayload, handleInputPrompt } = useInputPrompt();
 
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-
+  const handleSubmit = async (e?: FormEvent) => {
+    if (e) e.preventDefault();
     const prompt = promptRef.current?.value.trim();
-
-    if (prompt && prompt.length > 5) {
-      setDataPayload("");
-      setIsGenerating(true);
-
-      try {
-        await chatMessageMutation({
-          variables: {
-            input: { prompt },
-          },
-        });
-      } catch (error) {
-        console.error("Error sending message:", error);
-        setDataPayload("Sorry, something went wrong. Please try again.");
-        setIsGenerating(false);
-      }
-
+    const randomNumber = Math.random();
+    const threshold = 0.99;
+    const clearPrompt = () => {
       if (promptRef.current) {
         promptRef.current.value = "";
+      }
+    };
+    if (prompt) {
+      handleInputPrompt(prompt, clearPrompt);
+    } else {
+      if (randomNumber < threshold) {
+        toast.error("Prompt is required", { position: "top-center" });
+      } else {
+        toast.error("PROMPT IS REQUIRED", { position: "top-center" });
       }
     }
   };
 
-  useEffect(() => {
-    if (data?.chatMessage) {
-      setDataPayload((prev) => prev + data.chatMessage);
-      setIsGenerating(false);
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    const el = promptRef.current;
+    if (!el) return;
+
+    if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) {
+      e.preventDefault();
+      const { selectionStart, selectionEnd, value } = el;
+      el.value =
+        value.slice(0, selectionStart) + "\n" + value.slice(selectionEnd);
+      el.selectionStart = el.selectionEnd = selectionStart + 1;
+      return;
     }
-  }, [data]);
+
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      handleSubmit();
+    }
+  };
 
   return (
     <div>
@@ -59,7 +62,7 @@ const Chatbot = () => {
           </div>
         </div>
 
-        <div className="text-left text-base bg-gray-100 p-4 border-none w-full min-h-[200px] flex items-start rounded-lg">
+        <div className="text-left text-base bg-gray-100 dark:bg-gray-800 p-4 border-none w-full min-h-[200px] flex items-start rounded-lg">
           <span className="leading-relaxed whitespace-pre-wrap">
             {dataPayload}
             {isGenerating && !dataPayload && (
@@ -74,6 +77,7 @@ const Chatbot = () => {
             placeholder="Ask me anything!"
             className="min-h-[100px] resize-none border-border text-base"
             disabled={isGenerating}
+            onKeyDown={handleKeyDown}
           />
 
           <div className="flex items-center justify-end pt-4 border-t border-border">

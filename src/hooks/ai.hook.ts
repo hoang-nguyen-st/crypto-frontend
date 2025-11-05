@@ -5,7 +5,7 @@ import type { ChatMessage, Prompt } from "@/interfaces";
 export const useAiMessage = () => {
   const { data, loading } = useSubscription<ChatMessage>(chatMessage);
 
-  const [chatMessageMutation] = useMutation<{ test: boolean }, Prompt>(CHAT);
+  const [chatMessageMutation] = useMutation<{ chat: boolean }, Prompt>(CHAT);
 
   return {
     data,
